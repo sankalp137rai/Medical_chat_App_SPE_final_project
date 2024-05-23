@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ChatUI from './components/ChatUI';
 import DiseasePredictor from './components/DiseasePredictor';
 import './components/app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import logger from './logger';
 
 function App() {
   const [chatMessages, setChatMessages] = useState([]);
@@ -15,6 +16,14 @@ function App() {
   const clearSymptoms = () => {
     setSymptoms([]);
   };
+
+  useEffect(() => {
+    logger.info('App component mounted');
+
+    return () => {
+      logger.info('App component unmounted');
+    };
+  }, []);
 
   const handleUserMessage = (message) => {
     const newMessage = { text: message, sender: 'user' };
@@ -28,7 +37,8 @@ function App() {
         setChatMessages([...chatMessages, newMessage, botMessage]);
       })
       .catch((error) => {
-        console.error('Error getting bot response:', error);
+        // console.error('Error getting bot response:', error);
+          logger.error('Error getting bot response:', error);
       });
   };
 
@@ -49,7 +59,8 @@ function App() {
           setDiagnosisResults(response.data);
         })
         .catch((error) => {
-          console.error('Error predicting disease:', error);
+          // console.error('Error predicting disease:', error);
+            logger.error('Error predicting disease:', error);
         });
     }
   };
