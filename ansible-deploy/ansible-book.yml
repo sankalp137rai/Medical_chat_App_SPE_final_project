@@ -1,14 +1,31 @@
 ---
 - name: Deploy chat app to minikube
   hosts: all
+  become: yes
+
   tasks:
+    - name: Update Minikube context
+      shell: minikube update-context
+
+    - name: Set KUBECONFIG
+      shell: export KUBECONFIG="$(minikube kubectl config view --flatten=true --minify=true)"
+
+    - name: Get Minikube IP
+      shell: minikube ip
+      register: minikube_ip
+
+    - name: Set MINIKUBE_HOST
+      set_fact:
+        minikube_host: "https://{{ minikube_ip.stdout }}:8443"
+
     # - name: Database Configurations Setup
     #   kubernetes.core.k8s:
     #     kubeconfig: /etc/ansible/config
     #     state: present
     #     definition: "{{ lookup('template', '../kubernates/backend.yaml') }}"
-    - name: apply backend
-      shell: kubectl apply --validate=false -f ../kubernates/backend.yaml
+
+    - name: Apply backend
+      shell: "kubectl --server={{ minikube_host }} apply --validate=false -f ../kubernates/backend.yaml"
 
     # - name: apply elasticsearch
     #   shell: kubectl apply -f ../kubernetes/elasticsearch.yaml
