@@ -188,12 +188,12 @@ def get_conversational_chain():
     return chain
 
 def pretty_print_docs(docs):
-    # print(
-    #     f"\n{'-' * 100}\n".join(
-    #         [f"Document {i+1}:\n\n" + d.page_content for i, d in enumerate(docs)]
-    #     )
-    # )
-    logger.info(f"\n{'-' * 100}\n".join([f"Document {i+1}:\n\n" + d.page_content for i, d in enumerate(docs)]))
+    print(
+        f"\n{'-' * 100}\n".join(
+            [f"Document {i+1}:\n\n" + d.page_content for i, d in enumerate(docs)]
+        )
+    )
+    # logger.info(f"\n{'-' * 100}\n".join([f"Document {i+1}:\n\n" + d.page_content for i, d in enumerate(docs)]))
 
 
 from google.generativeai.types import generation_types
@@ -212,7 +212,7 @@ def user_input(user_question):
         print(f"Recitation detected: {e}")
         logger.error("Recitation detected: {e}")
         response = {"output_text": "I'm sorry, I couldn't generate a response for your query please try again after some time!!"}
-        logger.warning("output_text": "I'm sorry, I couldn't generate a response for your query please try again after some time!!")
+        logger.warning("output_text: I'm sorry, I couldn't generate a response for your query please try again after some time!!")
 
     # print(response)
     logger.info(f"Generated response: {response}")

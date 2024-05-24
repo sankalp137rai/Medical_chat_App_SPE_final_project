@@ -4,7 +4,7 @@ import ChatUI from './components/ChatUI';
 import DiseasePredictor from './components/DiseasePredictor';
 import './components/app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logger from './logger';
+// import logger from './logger';
 
 function App() {
   const [chatMessages, setChatMessages] = useState([]);
@@ -18,10 +18,10 @@ function App() {
   };
 
   useEffect(() => {
-    logger.info('App component mounted');
+    // logger.info('App component mounted');
 
     return () => {
-      logger.info('App component unmounted');
+      // logger.info('App component unmounted');
     };
   }, []);
 
@@ -31,14 +31,14 @@ function App() {
 
     // Make an API call to get the bot's response
     axios
-      .post('http://192.168.49.2:32081/get', { msg: message })
+      .post('http://192.168.76.2:32081/get', { msg: message })
       .then((response) => {
         const botMessage = { text: response.data.response, sender: 'bot' };
         setChatMessages([...chatMessages, newMessage, botMessage]);
       })
       .catch((error) => {
-        // console.error('Error getting bot response:', error);
-          logger.error('Error getting bot response:', error);
+        console.error('Error getting bot response:', error);
+          // logger.error('Error getting bot response:', error);
       });
   };
 
@@ -54,13 +54,13 @@ function App() {
     } else {
       // Make an API call to predict the disease
       axios
-        .post('http://192.168.49.2:32081/predict', newDiagnosisResults)
+        .post('http://192.168.76.2:32081/predict', newDiagnosisResults)
         .then((response) => {
           setDiagnosisResults(response.data);
         })
         .catch((error) => {
-          // console.error('Error predicting disease:', error);
-            logger.error('Error predicting disease:', error);
+          console.error('Error predicting disease:', error);
+            // logger.error('Error predicting disease:', error);
         });
     }
   };

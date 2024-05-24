@@ -1,9 +1,11 @@
 ---
-# Frontend Deployment
+# Frontend Deployments
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: react-app
+  annotations:
+    redeployTimestamp: "2024-05-24T14:30:00Z" # Update this value to force redeployment
 spec:
   replicas: 1
   selector:
@@ -20,7 +22,7 @@ spec:
         ports:
         - containerPort: 3000
 ---
-# Frontend Service
+# Frontend Services
 apiVersion: v1
 kind: Service
 metadata:

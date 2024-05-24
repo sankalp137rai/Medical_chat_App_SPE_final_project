@@ -12,4 +12,5 @@ torch
 langchain-community
 nltk
 flask_cors
-logstash-logback-encoder
+python-logstash
+python-logstash-async
