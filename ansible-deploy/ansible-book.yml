@@ -1,19 +1,14 @@
 ---
 - name: Deploy chat app to minikube
-- hosts: sankalp-virtual-machine
-  become: true
-  ansible_python_interpreter: /home/sankalp/.local/bin/python3.10
-
-  # Your playbook tasks here
-
-# - name: Deploy chat app to minikube
-#   hosts: all
-#   tasks:
-#     - name: Database Configurations Setup
-#       kubernetes.core.k8s:
-#         kubeconfig: /etc/ansible/config
-#         state: present
-#         definition: "{{ lookup('template', '../kubernates/backend.yaml') }}"
+  hosts: all
+  tasks:
+    # - name: Database Configurations Setup
+    #   kubernetes.core.k8s:
+    #     kubeconfig: /etc/ansible/config
+    #     state: present
+    #     definition: "{{ lookup('template', '../kubernates/backend.yaml') }}"
+    - name: apply backend
+      shell: kubectl apply -f ../kubernetes/backend.yaml
 
     # - name: apply elasticsearch
     #   shell: kubectl apply -f ../kubernetes/elasticsearch.yaml
