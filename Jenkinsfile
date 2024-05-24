@@ -52,7 +52,7 @@ pipeline {
             steps {
                 dir('kubernates') {
                     script {
-                        sh "kubectl apply -f backend.yaml"
+                        sh "kubectl apply -f backend.yaml --validate=false"
                     }
                 }
             }
