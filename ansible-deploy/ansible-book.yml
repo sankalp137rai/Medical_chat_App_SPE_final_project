@@ -8,7 +8,7 @@
     #     state: present
     #     definition: "{{ lookup('template', '../kubernates/backend.yaml') }}"
     - name: apply backend
-      shell: kubectl apply -f ../kubernates/backend.yaml
+      shell: kubectl apply --validate=false -f ../kubernates/backend.yaml
 
     # - name: apply elasticsearch
     #   shell: kubectl apply -f ../kubernetes/elasticsearch.yaml
