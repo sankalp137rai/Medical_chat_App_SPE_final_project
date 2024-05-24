@@ -51,18 +51,18 @@ pipeline {
             steps {
                 script {
                     ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: 'ansible-deploy/inventory',
-                    playbook: 'ansible-deploy/ansible-book.yml', sudoUser: null
+                    playbook: './ansible-deploy/ansible-book.yml', sudoUser: null
                 }
             }
         }
-        stage('Deploy frontend to Kubernetes') {
-            steps {
-                dir('kubernates') {
-                    script {
-                        sh "kubectl apply -f frontend.yaml"
-                    }
-                }
-            }
-        }
+        // stage('Deploy frontend to Kubernetes') {
+        //     steps {
+        //         dir('kubernates') {
+        //             script {
+        //                 sh "kubectl apply -f frontend.yaml"
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
