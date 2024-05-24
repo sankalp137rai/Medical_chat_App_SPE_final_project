@@ -4,28 +4,15 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/veertp10/SPE_final.git'
+                git branch: 'main', url: 'https://github.com/sankalp137rai/SPE_final_project.git'
             }
         }
-
-        stage('Train Model') {
-            steps {
-                script {
-                    def trainImage = docker.build("veerendragoudatp10/train-model:latest", '-f training/Dockerfile training')
-                    withDockerRegistry([credentialsId: "DockerHubCred", url: ""]) {
-                        trainImage.push("${env.BUILD_NUMBER}")
-                    }
-                    
-                }
-            }
-        }
-
 
         stage('Build Docker Frontend Image') {
             steps {
-                dir('frontend') {
+                dir('healthcare_chatbot_frontend') {
                     script {
-                        frontendImage = docker.build("veerendragoudatp10/chat-frontend:frontend")
+                        frontendImage = docker.build("sankalp137rai/react-app:frontend")
                     }
                 }
             }
@@ -43,9 +30,9 @@ pipeline {
 
         stage('Build Docker Backend Image') {
             steps {
-                dir('backend') {
+                dir('healthcare_chatbot_backend') {
                     script {
-                        backendImage = docker.build("veerendragoudatp10/chat-backend:backend")
+                        backendImage = docker.build("sankalp137rai/flask-app:backend")
                     }
                 }
             }
