@@ -4,7 +4,7 @@
 
   tasks:
     - name: Apply backend
-      shell: kubectl apply -f ../kubernetes/backend.yaml
+      shell: kubectl apply -f ../kubernetes/backend.yaml --validate=false
 
     # Uncomment and modify the following tasks as needed
     # - name: apply elasticsearch
