@@ -1,2 +1,2 @@
 [localhost]
-sankalp-virtual-machine ansible_connection=local
+sankalp-virtual-machine ansible_connection=local ansible_become_pass=''
