@@ -3,10 +3,10 @@
   hosts: all
   tasks:
     - name: apply backend
-      shell: kubectl apply -f ../kubernetes/backend.yaml
+      shell: kubectl apply -f ./kubernetes/backend.yaml
 
     - name: apply frontend
-      shell: kubectl apply -f ../kubernetes/frontend.yaml
+      shell: kubectl apply -f ./kubernetes/frontend.yaml
 
     # - name: apply elasticsearch
     #   shell: kubectl apply -f ../kubernetes/elasticsearch.yaml
