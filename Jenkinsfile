@@ -47,24 +47,32 @@ pipeline {
                 }
             }
         }
+        stage('Deploy with Ansible') {
+            steps {
+                script {
+                    ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: 'ansible-deploy/inventory',
+                    playbook: 'ansible-deploy/ansible-book.yml', sudoUser: null
+                }
+            }
+        }
 
-        stage('Deploy backend to Kubernetes') {
-            steps {
-                dir('kubernates') {
-                    script {
-                        sh "kubectl apply -f backend.yaml"
-                    }
-                }
-            }
-        }
-        stage('Deploy frontend to Kubernetes') {
-            steps {
-                dir('kubernates') {
-                    script {
-                        sh "kubectl apply -f frontend.yaml"
-                    }
-                }
-            }
-        }
+        // stage('Deploy backend to Kubernetes') {
+        //     steps {
+        //         dir('kubernates') {
+        //             script {
+        //                 sh "kubectl apply -f backend.yaml --validate=false"
+        //             }
+        //         }
+        //     }
+        // }
+        // stage('Deploy frontend to Kubernetes') {
+        //     steps {
+        //         dir('kubernates') {
+        //             script {
+        //                 sh "kubectl apply -f frontend.yaml"
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
