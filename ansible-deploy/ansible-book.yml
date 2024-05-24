@@ -6,35 +6,51 @@
   tasks:
     - name: Update Minikube context
       shell: minikube update-context
+      become: false  # No need for sudo here, depending on your setup
 
-    - name: Set KUBECONFIG
-      shell: export KUBECONFIG="$(minikube kubectl config view --flatten=true --minify=true)"
+    - name: Get Minikube KUBECONFIG
+      shell: minikube kubectl config view --flatten=true --minify=true
+      register: kubectl_config
+
+    - name: Set KUBECONFIG fact
+      set_fact:
+        kubeconfig: "{{ kubectl_config.stdout }}"
 
     - name: Get Minikube IP
       shell: minikube ip
       register: minikube_ip
 
-    - name: Set MINIKUBE_HOST
+    - name: Set MINIKUBE_HOST fact
       set_fact:
         minikube_host: "https://{{ minikube_ip.stdout }}:8443"
 
-    # - name: Database Configurations Setup
-    #   kubernetes.core.k8s:
-    #     kubeconfig: /etc/ansible/config
-    #     state: present
-    #     definition: "{{ lookup('template', '../kubernates/backend.yaml') }}"
-
     - name: Apply backend
-      shell: "kubectl --server={{ minikube_host }} apply --validate=false -f ../kubernates/backend.yaml"
+      shell: kubectl apply --validate=false -f ../kubernetes/backend.yaml
+      environment:
+        KUBECONFIG: "{{ kubeconfig }}"
+      become: false  # No need for sudo here, depending on your setup
 
+    # Uncomment and modify the following tasks as needed
     # - name: apply elasticsearch
     #   shell: kubectl apply -f ../kubernetes/elasticsearch.yaml
+    #   environment:
+    #     KUBECONFIG: "{{ kubeconfig }}"
+    #   become: false  # No need for sudo here, depending on your setup
 
     # - name: apply logstash
     #   shell: kubectl apply -f ../kubernetes/logstash.yaml
+    #   environment:
+    #     KUBECONFIG: "{{ kubeconfig }}"
+    #   become: false  # No need for sudo here, depending on your setup
 
     # - name: apply kibana
     #   shell: kubectl apply -f ../kubernetes/kibana.yaml
+    #   environment:
+    #     KUBECONFIG: "{{ kubeconfig }}"
+    #   become: false  # No need for sudo here, depending on your setup
 
     # - name: apply filebeat
     #   shell: kubectl apply -f ../kubernetes/filebeat.yaml
+    #   environment:
+    #     KUBECONFIG: "{{ kubeconfig }}"
+    #   become: false  # No need for sudo here, depending on your setup
