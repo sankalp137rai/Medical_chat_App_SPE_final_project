@@ -1,2 +1,2 @@
-[localhost]
-sankalp-virtual-machine ansible_connection=local
+[sankalp-virtual-machine]
+ansible_python_interpreter=/home/sankalp/.local/bin/python3.10
