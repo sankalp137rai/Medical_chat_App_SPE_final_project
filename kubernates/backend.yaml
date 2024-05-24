@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: flask-app
-        image: sankalp137rai/flask-app:latest
+        image: sankalp137rai/flask-app:backend
         ports:
         - containerPort: 8000
         envFrom:
