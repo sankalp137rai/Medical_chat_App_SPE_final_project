@@ -48,13 +48,21 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Deploy backend to Kubernetes') {
             steps {
-                script {
-                    sh """
-                        kubectl apply -f backend.yaml
-                        kubectl apply -f frontend.yaml
-                    """
+                dir('kubernates') {
+                    script {
+                        sh "kubectl apply -f backend.yaml"
+                    }
+                }
+            }
+        }
+        stage('Deploy frontend to Kubernetes') {
+            steps {
+                dir('kubernates') {
+                    script {
+                        sh "kubectl apply -f frontend.yaml"
+                    }
                 }
             }
         }
