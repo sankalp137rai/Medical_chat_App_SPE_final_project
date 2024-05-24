@@ -55,24 +55,14 @@ pipeline {
                 }
             }
         }
-
-        // stage('Deploy backend to Kubernetes') {
-        //     steps {
-        //         dir('kubernates') {
-        //             script {
-        //                 sh "kubectl apply -f backend.yaml --validate=false"
-        //             }
-        //         }
-        //     }
-        // }
-        // stage('Deploy frontend to Kubernetes') {
-        //     steps {
-        //         dir('kubernates') {
-        //             script {
-        //                 sh "kubectl apply -f frontend.yaml"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Deploy frontend to Kubernetes') {
+            steps {
+                dir('kubernates') {
+                    script {
+                        sh "kubectl apply -f frontend.yaml"
+                    }
+                }
+            }
+        }
     }
 }
