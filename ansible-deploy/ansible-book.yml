@@ -2,11 +2,11 @@
 - name: Deploy chat app to minikube
   hosts: all
   tasks:
-    - name: apply backend
-      shell: kubectl apply -f ../kubernates/backend.yaml
-
-    - name: apply frontend
-      shell: kubectl apply -f ./kubernates/frontend.yaml
+    - name: Database Configurations Setup
+      kubernetes.core.k8s:
+        kubeconfig: /etc/ansible/config
+        state: present
+        definition: "{{ lookup('template', '../kubernates/backend.yaml') }}"
 
     # - name: apply elasticsearch
     #   shell: kubectl apply -f ../kubernetes/elasticsearch.yaml
