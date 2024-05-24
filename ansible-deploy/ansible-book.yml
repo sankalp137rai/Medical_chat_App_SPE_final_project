@@ -1,31 +1,10 @@
 ---
 - name: Deploy chat app to minikube
-  hosts: all
-  become: yes
+  hosts: localhost
 
   tasks:
-    - name: Install Minikube on Linux
-      block:
-        - name: Download Minikube binary
-          get_url:
-            url: "https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
-            dest: /usr/local/bin/minikube
-            mode: '0755'
-          when: ansible_os_family == 'Linux'
-
-        - name: Start Minikube
-          command: minikube start
-          when: ansible_os_family == 'Linux'
-
-    - name: Ensure kubectl is using Minikube context
-      command: kubectl config use-context minikube    
-
-    - name: Install Kubernetes Ansible modules
-      ansible.builtin.pip:
-        name: kubernetes
-
     - name: Apply backend
-      shell: kubectl apply --validate=false -f ../kubernetes/backend.yaml
+      shell: kubectl apply -f ../kubernetes/backend.yaml
 
     # Uncomment and modify the following tasks as needed
     # - name: apply elasticsearch
