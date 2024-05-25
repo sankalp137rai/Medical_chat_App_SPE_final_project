@@ -4,12 +4,38 @@ pipeline {
     environment {
         // Retrieve the sudo password from Jenkins credentials and set it as an environment variable
         SUDO_PASSWORD = credentials('SUDO_PASSWORD')
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        AWS_DEFAULT_REGION = "eu-north-1"
+        S3_BUCKET_NAME = "healthcarechatbot1"
     }
 
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/sankalp137rai/SPE_final_project.git'
+            }
+        }
+
+        stage('Train Model') {
+            steps {
+                script {
+                    def trainImage = docker.build("sankalp137rai/train-model:latest", '-f training/Dockerfile training')
+                    withDockerRegistry([credentialsId: "DockerHubCred", url: ""]) {
+                        trainImage.push("${env.BUILD_NUMBER}")
+                    }
+
+                }
+            }
+        }
+
+        stage('Upload to S3') {
+            steps {
+                script {
+                    sh """
+                        aws s3 cp ExtraTrees s3://${S3_BUCKET_NAME}/ExtraTrees --region ${AWS_DEFAULT_REGION}
+                    """
+                }
             }
         }
 
