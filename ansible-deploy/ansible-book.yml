@@ -30,6 +30,14 @@
       shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f /home/sankalp/Documents/healthcareChatbot/kubernetes/logstash.yaml --validate=false
       register: logstash_deploy_result
 
+    - name: Deploy elasticsearch
+      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f /home/sankalp/Documents/healthcareChatbot/kubernetes/elasticsearch.yaml --validate=false
+      register: logstash_deploy_result
+
+    - name: Deploy logstash
+      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f /home/sankalp/Documents/healthcareChatbot/kubernetes/kibana.yaml --validate=false
+      register: logstash_deploy_result
+
 
 
 
