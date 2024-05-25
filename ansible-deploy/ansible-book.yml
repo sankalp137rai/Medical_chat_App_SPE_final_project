@@ -7,7 +7,7 @@
   gather_facts: no  # Skip gathering facts to speed up the process
 
   vars:
-    ansible_become_pass: "{{ lookup('env', 'SUDO_PASSWORD') }}"
+    ansible_become_pass: "{{ lookup('env', '130713') }}"
 
   tasks:
     - name: Deploy frontend
