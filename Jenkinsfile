@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        // Retrieve the sudo password from Jenkins credentials and set it as an environment variable
+        SUDO_PASSWORD = credentials('SUDO_PASSWORD')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -47,14 +52,65 @@ pipeline {
         //         }
         //     }
         // }
+        // stage('Deploy with Ansible') {
+        //     steps {
+        //         script {
+        //             ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: 'ansible-deploy/inventory',
+        //             playbook: './ansible-deploy/ansible-book.yml', sudoUser: null
+        //         }
+        //     }
+        // }
+
+        // stages {
+        //         stage('Deploy to Minikube using ansible') {
+        //             steps {
+        //                 script {
+        //                     // Export the sudo password and run the Ansible playbook
+        //                     sh '''
+        //                         export SUDO_PASSWORD=${SUDO_PASSWORD}
+        //                         ansible-playbook /home/sankalp/Documents/healthcareChatbot/ansible-deploy/ansible-book.yml -i /home/sankalp/Documents/healthcareChatbot/ansible-deploy/inventory
+        //                     '''
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // stages {
+        //     stage('Deploy with Ansible') {
+        //         steps {
+        //             script {
+        //                 // Export the sudo password and run the Ansible playbook using the ansiblePlaybook step
+        //                 withEnv(["SUDO_PASSWORD=${SUDO_PASSWORD}"]) {
+        //                     ansiblePlaybook becomeUser: null, 
+        //                                     colorized: true, 
+        //                                     disableHostKeyChecking: true, 
+        //                                     installation: 'Ansible', 
+        //                                     inventory: './ansible-deploy/inventory', 
+        //                                     playbook: './ansible-deploy/ansible-book.yml', 
+        //                                     sudoUser: null,
+        //                                     extraVars: [ansible_sudo_pass: SUDO_PASSWORD]
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
         stage('Deploy with Ansible') {
             steps {
                 script {
-                    ansiblePlaybook becomeUser: null, colorized: true, disableHostKeyChecking: true, installation: 'Ansible', inventory: 'ansible-deploy/inventory',
-                    playbook: './ansible-deploy/ansible-book.yml', sudoUser: null
+                    withEnv(["SUDO_PASSWORD=${SUDO_PASSWORD}"]) {
+                        ansiblePlaybook becomeUser: null, 
+                                        colorized: true, 
+                                        disableHostKeyChecking: true, 
+                                        installation: 'Ansible', 
+                                        inventory: 'ansible-deploy/inventory', 
+                                        playbook: './ansible-deploy/ansible-book.yml', 
+                                        sudoUser: null,
+                                        extraVars: [ansible_become_pass: SUDO_PASSWORD]
+                    }
                 }
             }
         }
+
         // stage('Deploy frontend to Kubernetes') {
         //     steps {
         //         dir('kubernates') {
