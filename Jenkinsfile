@@ -19,7 +19,7 @@ pipeline {
 
         stage('Test Model') {
                 steps {
-                sh 'python training/test.py'
+                sh 'python3 training/test.py'
                 }
         }
 
