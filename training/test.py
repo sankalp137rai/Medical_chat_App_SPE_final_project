@@ -7,7 +7,7 @@ from sklearn.ensemble import ExtraTreesClassifier
 
 class TestTrainModel(unittest.TestCase):
     def setUp(self):
-        self.data = pd.read_csv('patients_data.csv')
+        self.data = pd.read_csv('/var/lib/jenkins/workspace/SPE_finalProject/training/patients_data.csv')
         self.X = self.data.iloc[:, 1:].values
         self.y = self.data['Disease'].values
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.3, random_state=42)
