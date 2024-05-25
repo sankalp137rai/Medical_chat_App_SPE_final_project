@@ -31,7 +31,7 @@ function App() {
 
     // Make an API call to get the bot's response
     axios
-      .post('http://192.168.76.2:32081/get', { msg: message })
+      .post('http://192.168.49.2:32081/get', { msg: message })
       .then((response) => {
         const botMessage = { text: response.data.response, sender: 'bot' };
         setChatMessages([...chatMessages, newMessage, botMessage]);
@@ -54,7 +54,7 @@ function App() {
     } else {
       // Make an API call to predict the disease
       axios
-        .post('http://192.168.76.2:32081/predict', newDiagnosisResults)
+        .post('http://192.168.49.2:32081/predict', newDiagnosisResults)
         .then((response) => {
           setDiagnosisResults(response.data);
         })

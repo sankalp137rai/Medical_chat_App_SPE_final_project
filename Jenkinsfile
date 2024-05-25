@@ -13,45 +13,45 @@ pipeline {
             }
         }
 
-        // stage('Build Docker Frontend Image') {
-        //     steps {
-        //         dir('healthcare_chatbot_frontend') {
-        //             script {
-        //                 frontendImage = docker.build("sankalp137rai/react-app:frontend")
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build Docker Frontend Image') {
+            steps {
+                dir('healthcare_chatbot_frontend') {
+                    script {
+                        frontendImage = docker.build("sankalp137rai/react-app:frontend1")
+                    }
+                }
+            }
+        }
 
-        // stage('Push Docker Frontend Image') {
-        //     steps {
-        //         script {
-        //             withDockerRegistry([credentialsId: "DockerHubCred", url: ""]) {
-        //                 frontendImage.push()
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Push Docker Frontend Image') {
+            steps {
+                script {
+                    withDockerRegistry([credentialsId: "DockerHubCred", url: ""]) {
+                        frontendImage.push()
+                    }
+                }
+            }
+        }
 
-        // stage('Build Docker Backend Image') {
-        //     steps {
-        //         dir('healthcare_chatbot_backend') {
-        //             script {
-        //                 backendImage = docker.build("sankalp137rai/flask-app:backend")
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Build Docker Backend Image') {
+            steps {
+                dir('healthcare_chatbot_backend') {
+                    script {
+                        backendImage = docker.build("sankalp137rai/flask-app:backend1")
+                    }
+                }
+            }
+        }
 
-        // stage('Push Docker Backend Image') {
-        //     steps {
-        //         script {
-        //             withDockerRegistry([credentialsId: "DockerHubCred", url: ""]) {
-        //                 backendImage.push()
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Push Docker Backend Image') {
+            steps {
+                script {
+                    withDockerRegistry([credentialsId: "DockerHubCred", url: ""]) {
+                        backendImage.push()
+                    }
+                }
+            }
+        }
         // stage('Deploy with Ansible') {
         //     steps {
         //         script {
