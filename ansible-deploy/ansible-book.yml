@@ -18,16 +18,16 @@
       debug:
         msg: "Current working directory: {{ pwd_output.stdout }}"
     - name: Deploy frontend
-      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/frontend.yaml --validate=false
+      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f /home/sankalp/Documents/healthcareChatbot/kubernetes/frontend.yaml --validate=false
       register: frontend_deploy_result
       ignore_errors: yes
 
     - name: Deploy backend
-      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/backend.yaml --validate=false
+      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f /home/sankalp/Documents/healthcareChatbot/kubernetes/backend.yaml --validate=false
       register: backend_deploy_result
 
     - name: Deploy logstash
-      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/logstash.yaml --validate=false
+      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f /home/sankalp/Documents/healthcareChatbot/kubernetes/logstash.yaml --validate=false
       register: logstash_deploy_result
 
 
