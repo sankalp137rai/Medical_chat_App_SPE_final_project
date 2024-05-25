@@ -75,25 +75,6 @@ pipeline {
         //         }
         //     }
         // }
-        // stages {
-        //     stage('Deploy with Ansible') {
-        //         steps {
-        //             script {
-        //                 // Export the sudo password and run the Ansible playbook using the ansiblePlaybook step
-        //                 withEnv(["SUDO_PASSWORD=${SUDO_PASSWORD}"]) {
-        //                     ansiblePlaybook becomeUser: null, 
-        //                                     colorized: true, 
-        //                                     disableHostKeyChecking: true, 
-        //                                     installation: 'Ansible', 
-        //                                     inventory: './ansible-deploy/inventory', 
-        //                                     playbook: './ansible-deploy/ansible-book.yml', 
-        //                                     sudoUser: null,
-        //                                     extraVars: [ansible_sudo_pass: SUDO_PASSWORD]
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
         stage('Deploy with Ansible') {
             steps {
                 script {
@@ -102,7 +83,7 @@ pipeline {
                                         colorized: true, 
                                         disableHostKeyChecking: true, 
                                         installation: 'Ansible', 
-                                        inventory: 'ansible-deploy/inventory', 
+                                        inventory: './ansible-deploy/inventory', 
                                         playbook: './ansible-deploy/ansible-book.yml', 
                                         sudoUser: null,
                                         extraVars: [ansible_become_pass: SUDO_PASSWORD]
