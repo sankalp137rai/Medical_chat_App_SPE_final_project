@@ -19,7 +19,8 @@ pipeline {
 
         stage('Test Model') {
                 steps {
-                sh 'python3 training/test.py'
+                    sh 'pwd'
+                    sh 'python3 training/test.py'
                 }
         }
 
