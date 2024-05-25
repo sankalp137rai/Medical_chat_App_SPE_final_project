@@ -32,5 +32,5 @@ class TestTrainModel(unittest.TestCase):
         y_pred = model.predict(self.X_test)
         self.assertEqual(len(y_pred), self.X_test.shape[0], "Prediction issue")
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     unittest.main()
