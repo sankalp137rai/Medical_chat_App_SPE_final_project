@@ -1,32 +1,24 @@
 ---
 - name: Deploy chat app to minikube
-  hosts: localhost
+  hosts: local
+  become: yes
+  become_user: root
+  become_method: sudo
+  gather_facts: no  # Skip gathering facts to speed up the process
+
+  vars:
+    ansible_become_pass: "{{ lookup('env', 'SUDO_PASSWORD') }}"
 
   tasks:
-    - name: Apply backend
-      shell: kubectl apply ../kubernetes/backend.yaml 
+    - name: Deploy frontend
+      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/frontend.yaml --validate=false
+      register: frontend_deploy_result
+      ignore_errors: yes
 
-    # Uncomment and modify the following tasks as needed
-    # - name: apply elasticsearch
-    #   shell: kubectl apply -f ../kubernetes/elasticsearch.yaml
-    #   environment:
-    #     KUBECONFIG: "{{ kubeconfig }}"
-    #   become: false  # No need for sudo here, depending on your setup
+    - name: Deploy frontend
+      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/backend.yaml --validate=false
+      register: backend_deploy_result
+    - name: Deploy frontend
 
-    # - name: apply logstash
-    #   shell: kubectl apply -f ../kubernetes/logstash.yaml
-    #   environment:
-    #     KUBECONFIG: "{{ kubeconfig }}"
-    #   become: false  # No need for sudo here, depending on your setup
-
-    # - name: apply kibana
-    #   shell: kubectl apply -f ../kubernetes/kibana.yaml
-    #   environment:
-    #     KUBECONFIG: "{{ kubeconfig }}"
-    #   become: false  # No need for sudo here, depending on your setup
-
-    # - name: apply filebeat
-    #   shell: kubectl apply -f ../kubernetes/filebeat.yaml
-    #   environment:
-    #     KUBECONFIG: "{{ kubeconfig }}"
-    #   become: false  # No need for sudo here, depending on your setup
+      shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/logstash.yaml --validate=false
+      register: backend_deploy_result
