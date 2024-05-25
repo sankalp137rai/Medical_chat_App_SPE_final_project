@@ -4,8 +4,6 @@
   become: yes
   become_method: sudo
   become_user: root
-  vars:
-    ansible_sudo_pass: "{{ ansible_sudo_pass }}"
   gather_facts: no  # Skip gathering facts to speed up the process
 
   vars:
@@ -17,10 +15,40 @@
       register: frontend_deploy_result
       ignore_errors: yes
 
-    - name: Deploy frontend
+    - name: Deploy backend
       shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/backend.yaml --validate=false
       register: backend_deploy_result
-    - name: Deploy frontend
 
+    - name: Deploy logstash
       shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/logstash.yaml --validate=false
-      register: backend_deploy_result
+      register: logstash_deploy_result
+
+
+
+
+# ---
+# - name: Deploy chat app to minikube
+#   hosts: all
+#   become: yes
+#   become_method: sudo
+#   become_user: root
+#   vars:
+#     ansible_sudo_pass: "{{ ansible_sudo_pass }}"
+#   gather_facts: no  # Skip gathering facts to speed up the process
+
+#   vars:
+#     ansible_become_pass: "{{ lookup('env', 'SUDO_PASSWORD') }}"
+
+#   tasks:
+#     - name: Deploy frontend
+#       shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/frontend.yaml --validate=false
+#       register: frontend_deploy_result
+#       ignore_errors: yes
+
+#     - name: Deploy frontend
+#       shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/backend.yaml --validate=false
+#       register: backend_deploy_result
+
+    # - name: Deploy logstash
+    #   shell: KUBECONFIG=/home/sankalp/.kube/config kubectl apply -f ../kubernetes/logstash.yaml --validate=false
+    #   register: backend_deploy_result
